@@ -1,0 +1,120 @@
+<%- include('header', {title: "Voting Screen"});  -%>
+<style>
+        body {
+            background-color: #c6eafa;
+        }
+
+        table, td, th {    
+    border: 0px solid #ddd;
+    text-align: left;
+}
+
+    table {
+    border-collapse: separate;
+    width: 100%;
+    border-spacing: 30px 10px;
+}
+
+th, td {
+    background-color: #c6eafa;
+    width: 10%;
+    height: 70px;
+    border: 1px solid #000;
+    padding: 5px;
+    
+}
+
+.clicked{
+    background-image: url('/img/swastik.png');
+    background-position: right;
+    background-size: 64px 64px;
+    background-repeat: no-repeat;
+    background-color: #eaeaea;
+    border-color: red;
+
+}
+        
+     
+</style>
+</head>
+<body>
+
+
+        <%- include('fptp_voting_paper_nav'); -%>
+    
+        <div class='container' style= 'background-color: #91d8f6;' >
+            <div class="table-responsive">          
+                <table cellspacing='20'>
+               
+                <tbody>
+                    <!-- You can use a for loop to generate the election symbols. -->
+                    <tr>
+                        <td><img src='/img/img1.png' height="64px" width="64px" float="left"/></td>
+                        <td><img src='/img/img2.png' height="64px" width="64px" float="left"/></td>
+                        <td><img src='/img/img3.png' height="64px" width="64px" float="left"/></td>
+                        <td><img src='/img/img4.png' height="64px" width="64px" float="left"/></td>
+                        <td><img src='/img/img5.png' height="64px" width="64px" float="left"/> </td>
+                    </tr>
+
+                    <tr>
+                            <td><img src='/img/img6.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img7.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img8.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img9.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img10.png' height="64px" width="64px" float="left"/></td>
+                    </tr>
+
+                    <tr>
+                            <td><img src='/img/img11.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img12.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img13.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img14.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img15.png' height="64px" width="64px" float="left"/></td>
+                    </tr>
+
+                    <tr>
+                        <td><img src='/img/img1.png' height="64px" width="64px" float="left"/></td>
+                        <td><img src='/img/img2.png' height="64px" width="64px" float="left"/></td>
+                        <td><img src='/img/img3.png' height="64px" width="64px" float="left"/></td>
+                        <td><img src='/img/img4.png' height="64px" width="64px" float="left"/></td>
+                        <td><img src='/img/img5.png' height="64px" width="64px" float="left"/> </td>
+                    </tr>
+
+                    <tr>
+                            <td><img src='/img/img6.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img7.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img8.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img9.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img10.png' height="64px" width="64px" float="left"/></td>
+                    </tr>
+
+                    <tr>
+                            <td><img src='/img/img11.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img12.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img13.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img14.png' height="64px" width="64px" float="left"/></td>
+                            <td><img src='/img/img15.png' height="64px" width="64px" float="left"/></td>
+                    </tr>
+
+                </tbody>
+                </table>
+            </div>
+            </div>
+
+            <script>
+                $(function() {
+                        $('td').click(function() {
+                            console.log('TD clicked');
+                            $(this).parents('table').find('td').each( function( index, element ) {
+                                                                                        $(element).removeClass('clicked');
+                                                                                    } );
+                                                                                    $(this).addClass('clicked');
+                        });
+                        });
+    
+            </script>
+
+    </body>
+
+</html>
+

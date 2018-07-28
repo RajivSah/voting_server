@@ -18,7 +18,7 @@ connectDb = function (username = 'rajiv', password = 'rajiv') {
         }
     });
 }
-
+app.use(express.static(__dirname + '/public/'))          // For serving static
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(function (req, res, next) {
@@ -31,6 +31,14 @@ app.use(function (req, res, next) {
 
 app.get('/', function(req, res) {
     res.render('register');
+});
+
+app.get('/voting', function(req, res){
+    res.render('fptp_voting_paper');
+});
+
+app.get('/voting/pr', function(req, res){
+    res.render('pr_voting_paper');
 });
 
 app.listen(4500, function(err) {
