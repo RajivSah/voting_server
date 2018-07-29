@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/sweetalert2@7.21.1/dist/sweetalert2.all.js"></script>
     <script type="text/javascript" src="../plugins/QRScanner/instascan.min.js"></script>
     <script src="../plugins//sha256/jquery.sha256.min.js"></script>
+    
     <script type="text/javascript">
         const toast = swal.mixin({
             toast: true,
@@ -70,7 +71,7 @@
         var validateVoter = function (pkHash) {
             var data = {
                 "id": pkHash,
-                "booth_address": 
+                "booth_address": "5b5c983ea5c18e4f3d2b30a8"
             };
             console.log(data);
             $.ajax({
@@ -82,9 +83,16 @@
                 },
                 success: function (validated) {
                     console.log(validated);
+                    document.cookie="token="+validated.token;
+                    document.cookie="booth_address="+data.booth_address;
+                    document.cookie="pkHash="+data.id;
+                    //console.log(getCookie('token'));
                     loadingPopdown();
+                    window.location.href='/voting/fptp_hor';
                 }
             });
         }
+
+        
     </script>
     <%- include('footer'); -%>

@@ -33,12 +33,21 @@ app.get('/', function(req, res) {
     res.render('register');
 });
 
-app.get('/voting', function(req, res){
-    res.render('fptp_voting_paper');
+app.get('/voting/fptp_hor', function(req, res){
+    res.render('fptp_hor_voting_paper');
+});
+app.get('/voting/fptp_pa', function(req, res){
+    res.render('fptp_pa_voting_paper');
 });
 
-app.get('/voting/pr', function(req, res){
-    res.render('pr_voting_paper');
+app.get('/voting/pr_hor', function(req, res){
+    res.render('pr_hor_voting_paper');
+});
+app.get('/voting/pr_pa', function(req, res){
+    res.render('pr_pa_voting_paper');
+});
+app.get('/start_voting',function(req,res){
+    res.render('voting');
 });
 
 app.listen(4500, function(err) {

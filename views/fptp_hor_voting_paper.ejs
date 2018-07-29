@@ -1,0 +1,169 @@
+<%- include('header', {title: "FPTP HOR Voting Screen"});  -%>
+<style>
+        body {
+            background-color: #c6eafa;
+        }
+
+        table, td, th {    
+    border: 0px solid #ddd;
+    text-align: left;
+}
+
+    table {
+    border-collapse: separate;
+    width: 100%;
+    border-spacing: 30px 10px;
+}
+
+th, td {
+    background-color: #c6eafa;
+    width: 10%;
+    height: 70px;
+    border: 1px solid #000;
+    padding: 5px;
+    
+}
+
+.clicked{
+    background-image: url('/img/swastik.png');
+    background-position: right;
+    background-size: 64px 64px;
+    background-repeat: no-repeat;
+    background-color: #eaeaea;
+    border-color: red;
+
+}
+#next_button{
+    float: right;
+}
+        
+     
+</style>
+
+    
+</head>
+<body>
+        <%- include('fptp_voting_paper_nav'); -%>
+        <script>
+                
+                var candidates;
+                  function callback(response) {
+                      candidates = response;
+                      console.log("callback function");
+                      console.log(candidates);
+                      createBallot(candidates);                  
+                      
+                  }
+                  function createBallot(candidates){
+                    console.log(candidates.length);
+                    var number_of_rows = Math.ceil(candidates.length/5) ;
+                    console.log(number_of_rows);
+                    var number_of_cols = candidates.length%5;
+                    var table_body = '<table cellspacing="20"><tbody>';
+                            
+                                    table_body+='<tr>';
+                                            var count=1;
+                                        candidates.forEach(candidate => {
+                                            table_body +='<td>';
+                                            table_body +='<img src="/img/'+candidate.symbolFileName+'" height="64px" width="64px" float="left"/<br>'+'<input type="hidden" id="ethAddress" value='+candidate.ethAddress+' />';
+                                            table_body +='</td>';  
+                                            if(count%5==0) 
+                                            {
+                                                table_body +='</tr>'; 
+                                                table_body+='<tr>';
+                                            }
+                                            count++;                                               
+                                        });
+                                    
+                                    table_body+='</tr>';
+                                
+                    table_body+='</tbody></table>';
+                    $('#ballot').html(table_body);
+        
+                }
+             
+                  $(document).ready(function(){
+                      console.log(getCookie('booth_address'));
+                      $.ajax({
+                          type: "GET",
+                          url: "http://localhost:3500/candidate/fptp/hor",
+                          headers: {"booth_address":getCookie('booth_address')},
+                          success: function (candidates) {
+                              //console.log(candidates);
+                              //createBallot(candidates);
+                              callback(candidates);
+                              
+                          }
+                      });
+                           console.log("ready function exiting");   
+                  });  
+                       
+  
+          </script>
+          <script>
+                                
+                    
+        
+                
+                
+                    
+                
+                                                        
+            </script>
+        
+
+        
+    
+        <div class='container' style= 'background-color: #91d8f6;' >
+                
+            <div class="table-responsive" id="ballot">                 
+                    
+                    <!-- Ballot is loaded using createBallot function using loops. -->
+                   
+            </div>
+             <button id="next_button" onclick="button_click()">Continue</button>
+        </div>
+            
+
+            
+            
+       
+    </body>
+    <script>
+            
+                $(document).on('click','td' ,function(){
+                        console.log('TD clicked');
+                        $(this).parents('table').find('td').each( function( index, element ) {
+                            $(element).removeClass('clicked');
+                        });
+                        $(this).addClass('clicked');
+                        var eth=$("td.clicked input").val();
+                        console.log(eth);
+                        
+                    
+                                                                                
+                });
+
+                function button_click() {
+                    var eth=$("td.clicked input").val();
+                    if(eth==undefined)
+                    {
+                        alert("Please select candidate").then;
+
+                    }
+                    else{
+                        document.cookie="fptp_hor_ethAddress="+eth;
+                        var ee=document.cookie;
+                        console.log(ee);
+                        window.location.href='/voting/fptp_pa';
+
+                    }
+                        
+                    
+                }
+                   
+
+        </script>
+
+</html>
+
