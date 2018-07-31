@@ -130,6 +130,7 @@ th, td {
             
        
     </body>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
             
                 $(document).on('click','td' ,function(){
@@ -154,7 +155,20 @@ th, td {
                         document.cookie="fptp_pa_ethAddress="+eth;
                         var ee=document.cookie;
                         console.log(ee);
-                        window.location.href='/voting/pr_hor';
+                        swal({
+                            title: "Are you sure?",
+                            text: "Do ypu want to continue",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: false,
+                            })
+                            .then((voteConfirmed) => {
+                            if (voteConfirmed) {
+                                window.location.href='/voting/pr_hor';
+
+                            } 
+                        });
+                        
 
                     }
                     
