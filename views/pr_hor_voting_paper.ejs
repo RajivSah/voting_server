@@ -67,7 +67,7 @@ th, td {
                                             var count=1;
                                         parties.forEach(party => {
                                             table_body +='<td>';
-                                            table_body +='<img src="/img/'+parties.symbolFilename+'" height="64px" width="64px" float="left" class="partyImage"/><br>'+'<input type="hidden" id="ethAddress" value='+party.HOREthAddress+' />';
+                                            table_body +='<img src="/img/'+parties.symbolFilename+'" id="'+party.HOREthAddress+'" height="64px" width="64px" float="left" class="partyImage"/><br>'+'<input type="hidden" id="ethAddress" value='+party.HOREthAddress+' />';
                                             table_body +='</td>';  
                                             if(count%5==0) 
                                             {
@@ -142,6 +142,21 @@ th, td {
                         $(this).addClass('clicked');
                         var eth=$("td.clicked input").val();
                         console.log(eth);
+
+                        swal({
+                            title: "सहमत हुनुहुन्छ ?",
+                            text: "के तपाईले छान्नु भएको उमेद्वार ठिक छ ?",
+                            icon: document.getElementById(eth).src,
+                            dangerMode: false,
+
+                            buttons: ["रद्ध ", "कायम "],
+                            
+                            })
+                            .then((voteConfirmed) => {
+                            if (voteConfirmed) {
+                                window.location.href='/voting/pr_pa';
+                            } 
+                        });
                         
                     
                                                                                 
@@ -159,7 +174,7 @@ th, td {
                         var ee=document.cookie;
                         console.log(ee);
                         //var cand=document.querySelector('.clicked .partyImage').attr(src);
-                        var cand= $(".clicked").find("img").attr('src')
+                        var cand= document.getElementById(eth).src;
                         console.log(cand);
                         swal({
                             title: "Are you sure?",
