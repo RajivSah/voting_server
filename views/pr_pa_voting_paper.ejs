@@ -138,6 +138,18 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
 
+        var loadingPopup = function () {
+                swal({
+                    text: "loading...",
+                    onOpen: function () {
+                        swal.showLoading();
+                    },
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false
+                });
+            }
+
         $(document).on('click', 'td', function () {
             console.log('TD clicked');
             $(this).parents('table').find('td').each(function (index, element) {
@@ -177,7 +189,7 @@
                                 },
                                 success: function (validated) {
 
-                                    window.location.href = '/voting/fptp_pa';
+                                    window.location.href = '/start_voting';
                                 },
                                 error: function (result) {
                                     loadingPopdown();
