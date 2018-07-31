@@ -142,6 +142,21 @@ th, td {
                         $(this).addClass('clicked');
                         var eth=$("td.clicked input").val();
                         console.log(eth);
+
+                        swal({
+                            title: "सहमत हुनुहुन्छ ?",
+                            text: "के तपाईले छान्नु भएको उमेद्वार ठिक छ ?",
+                            icon: document.getElementById(eth).src,
+                            dangerMode: false,
+
+                            buttons: ["रद्ध ", "कायम "],
+                            
+                            })
+                            .then((voteConfirmed) => {
+                            if (voteConfirmed) {
+                                window.location.href='/voting/pr_pa';
+                            } 
+                        });
                         
                     
                                                                                 
