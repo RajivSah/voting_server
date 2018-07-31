@@ -141,6 +141,8 @@ th, td {
                         $(this).addClass('clicked');
                         var eth=$("td.clicked input").val();
                         console.log(eth);
+                        document.cookie="fptp_pa_ethAddress="+eth;
+
 
                         swal({
                             title: "सहमत हुनुहुन्छ ?",
