@@ -72,7 +72,7 @@
 
 
                         table_body += '<td>';
-                        table_body += '<img src="/img/' + parties.symbolFilename + '" height="64px" width="64px" float="left"/<br>' + '<input type="hidden" id="ethAddress" value=' + party.prEthAddress + ' />';
+                        table_body += '<img src="/img/' + parties.symbolFilename + '" id="' + party.prEthAddress + '" height="64px" width="64px" float="left"/<br>' + '<input type="hidden" id="ethAddress" value=' + party.prEthAddress + ' />';
                         table_body += '</td>';
                         if (count % 5 == 0) {
                             table_body += '</tr>';
@@ -127,7 +127,7 @@
                     <!-- Ballot is loaded using createBallot function using loops. -->
 
                 </div>
-                <button id="next_button" onclick="button_click()">Continue</button>
+                <!--<button id="next_button" onclick="button_click()">Continue</button>-->
             </div>
 
 
@@ -138,6 +138,18 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
 
+        var loadingPopup = function () {
+                swal({
+                    text: "loading...",
+                    onOpen: function () {
+                        swal.showLoading();
+                    },
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false
+                });
+            }
+
         $(document).on('click', 'td', function () {
             console.log('TD clicked');
             $(this).parents('table').find('td').each(function (index, element) {
@@ -146,63 +158,59 @@
             $(this).addClass('clicked');
             var eth = $("td.clicked input").val();
             console.log(eth);
+            document.cookie = "pr_pa_ethAddress=" + eth;
+
+            swal({
+                title: "सहमत हुनुहुन्छ ?",
+                text: "के तपाईले छान्नु भएको उमेद्वार ठिक छ ?",
+                icon: document.getElementById(eth).src,
+                dangerMode: false,
+
+                buttons: ["रद्ध ", "कायम "],
+
+            })
+                .then((voteConfirmed) => {
+                    if (voteConfirmed) {
+                        $.ajax({
+                                method: "POST",
+                                url: "http://localhost:3500/voter/voted",
+                                headers: { "token": getCookie("token") },
+                                data: {
+                                    "booth_address": getCookie('booth_address'),
+                                    "token": getCookie('token'),
+                                    "username": getCookie('username'),
+                                    "fptp_hor_ethaddress": getCookie('fptp_hor_ethAddress'),
+                                    "fptp_pa_ethaddress": getCookie('fptp_pa_ethAddress'),
+                                    "pr_hor_ethaddress": getCookie('pr_hor_ethAddress'),
+                                    "pr_pa_ethaddress": getCookie('pr_pa_ethAddress')
+                                },
+                                beforeSend: function () {
+                                    loadingPopup();
+                                },
+                                success: function (validated) {
+
+                                    window.location.href = '/start_voting';
+                                },
+                                error: function (result) {
+                                    loadingPopdown();
+                                    toast({
+                                        type: "error",
+                                        title: "Not Authenticated"
+                                    });
+                                }
+                        });
+
+
+                    }
+                });
+
+                       
+                    
+                
 
 
 
         });
-
-        function button_click() {
-            var eth = $("td.clicked input").val();
-            if (eth == undefined) {
-                alert("Please select candidate");
-            }
-            else {
-                document.cookie = "pr_pa_ethAddress=" + eth;
-                var ee = document.cookie;
-                console.log(ee);
-                swal({
-                    title: "Are you sure?",
-                    text: "Do ypu want to continue",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: false,
-                })
-                    .then((voteConfirmed) => {
-                        if (voteConfirmed) {
-                            $.ajax({
-                                type: "POST",
-                                url: "http://localhost:3500/voter/voted",
-                                    
-                                headers: {
-                                    "token": getCookie('token')
-                                },
-                                data: {
-                                    "token": getCookie('token'),
-                                    "booth_address": getCookie('booth_address'),
-                                    "user_id": getCookie('user_id'),
-                                    "fptp_hor_ethAddress": getCookie('fptp_hor_ethAddress'),
-                                    "fptp_pa_ethAddress": getCookie('fptp_pa_ethAddress'),
-                                    "pr_hor_ethAddress": getCookie('pr_hor_ethAddress'),
-                                    "pr_pa_ethAddress": getCookie('pr_pa_ethAddress')
-                                },
-                                success: function (candidates) {
-                                    window.location.href = 'http://localhost:4500/start_voting';
-
-                                },
-                                beforeSend: function(){
-                                    console.log("*****changing voter status");
-                                    console.log(data,headers);
-                                }
-                            });
-
-
-                        }
-                    });
-
-
-            }
-
-        }
 
 
     </script>
