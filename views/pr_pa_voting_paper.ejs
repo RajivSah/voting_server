@@ -170,15 +170,15 @@
                     .then((voteConfirmed) => {
                         if (voteConfirmed) {
                             $.ajax({
-                                type: "POST",
+                                method: "POST",
                                 url: "http://localhost:3500/voter/voted",
                                 headers: { "booth_address": getCookie('booth_address'),
                                             "token":getCookie('token'),
-                                            "pkHash":getCookie('pkHash'),
-                                            "fptp_hor_ethAddress":getCookie('fptp_hor_ethAddress'),
-                                            "fptp_pa_ethAddress":getCookie('fptp_pa_ethAddress'),
-                                            "pr_hor_ethAddress":getCookie('pr_hor_ethAddress'),
-                                            "pr_pa_ethAddress":getCookie('pr_pa_ethAddress') },
+                                            "username":getCookie('username'),
+                                            "fptp_hor_ethaddress":getCookie('fptp_hor_ethAddress'),
+                                            "fptp_pa_ethaddress":getCookie('fptp_pa_ethAddress'),
+                                            "pr_hor_ethaddress":getCookie('pr_hor_ethAddress'),
+                                            "pr_pa_ethaddress":getCookie('pr_pa_ethAddress') },
                                 success: function (candidates) {
                                     window.location.href = 'http://localhost:4500/start_voting';
 
