@@ -1,179 +1,203 @@
 <%- include('header', {title: "Voting Screen"});  -%>
-<style>
+    <style>
         body {
             background-color: #ffffff;
         }
 
-        table, td, th {    
-    border: 0px solid #ddd;
-    text-align: left;
-}
+        table,
+        td,
+        th {
+            border: 0px solid #ddd;
+            text-align: left;
+        }
 
-    table {
-    border-collapse: separate;
-    width: 100%;
-    border-spacing: 30px 10px;
-}
+        table {
+            border-collapse: separate;
+            width: 100%;
+            border-spacing: 30px 10px;
+        }
 
-th, td {
-    background-color: #ffffff;
-    width: 10%;
-    height: 70px;
-    border: 1px solid #000;
-    padding: 5px;
-    
-}
+        th,
+        td {
+            background-color: #ffffff;
+            width: 10%;
+            height: 70px;
+            border: 1px solid #000;
+            padding: 5px;
 
-.clicked{
-    background-image: url('/img/swastik.png');
-    background-position: right;
-    background-size: 64px 64px;
-    background-repeat: no-repeat;
-    background-color: #eaeaea;
-    border-color: red;
+        }
 
-}
-#next_button{
-    float: right;
-}
-        
-     
-</style>
+        .clicked {
+            background-image: url('/img/swastik.png');
+            background-position: right;
+            background-size: 64px 64px;
+            background-repeat: no-repeat;
+            background-color: #eaeaea;
+            border-color: red;
 
-    
-</head>
-<body>
+        }
+
+        #next_button {
+            float: right;
+        }
+    </style>
+
+
+    </head>
+
+    <body>
         <%- include('fptp_voting_paper_nav'); -%>
-        <script>
-                
+            <script>
+
                 var candidates;
-                  function callback(response) {
-                      candidates = response;
-                      console.log("callback function");
-                      console.log(candidates);
-                      createBallot(candidates);                  
-                      
-                  }
-                  function createBallot(candidates){
-                    var JSON_candidates=JSON.parse(JSON.stringify(candidates[0]));
-                    var parties=JSON_candidates.parties;
-                    console.log(parties);
-                    var number_of_rows = Math.ceil(parties.length/5) ;
-                    console.log(number_of_rows);
-                    
-                    var table_body = '<table cellspacing="20"><tbody>';
-                            
-                                    table_body+='<tr>';
-                                        var count=1;
-                                        parties.forEach(party => {
-                                            
+                function callback(response) {
+                    candidates = response;
+                    console.log("callback function");
+                    console.log(candidates);
+                    createBallot(candidates);
 
-                                            table_body +='<td>';
-                                            table_body +='<img src="/img/'+parties.symbolFilename+'" height="64px" width="64px" float="left"/<br>'+'<input type="hidden" id="ethAddress" value='+party.prEthAddress+' />';
-                                            table_body +='</td>'; 
-                                            if(count%5==0) 
-                                            {
-                                                table_body +='</tr>'; 
-                                                table_body+='<tr>';
-                                            }
-                                            count++;                                          
-                                        });
-                                    
-                                    table_body+='</tr>';
-                                
-                    table_body+='</tbody></table>';
-                    $('#ballot').html(table_body);
-        
                 }
-             
-                  $(document).ready(function(){
-                      console.log(getCookie('booth_address'));
-                      $.ajax({
-                          type: "GET",
-                          url: "http://localhost:3500/candidate/pr/pa",
-                          headers: {"booth_address":getCookie('booth_address')},
-                          success: function (candidates) {
-                              //console.log(candidates);
-                              //createBallot(candidates);
-                              callback(candidates);
-                              
-                          }
-                      });
-                           console.log("ready function exiting");   
-                  });  
-                       
-  
-          </script>
-          <script>
-                                
-                    
-        
-                
-                
-                    
-                
-                                                        
-            </script>
-        
+                function createBallot(candidates) {
+                    var JSON_candidates = JSON.parse(JSON.stringify(candidates[0]));
+                    var parties = JSON_candidates.parties;
+                    console.log(parties);
+                    var number_of_rows = Math.ceil(parties.length / 5);
+                    console.log(number_of_rows);
 
-        
-    
-        <div class='container' style= 'background-color: #f6afcf;' >
-                
-            <div class="table-responsive" id="ballot">                 
-                    
-                    <!-- Ballot is loaded using createBallot function using loops. -->
-                   
-            </div>
-             <button id="next_button" onclick="button_click()">Continue</button>
-        </div>
-            
+                    var table_body = '<table cellspacing="20"><tbody>';
 
-            
-            
-       
-    </body>
-    <script src="https://unpkg.com/sweetalert2@7.21.1/dist/sweetalert2.all.js"></script>
-    <script>
-            
-                $(document).on('click','td' ,function(){
-                        console.log('TD clicked');
-                        $(this).parents('table').find('td').each( function( index, element ) {
-                            $(element).removeClass('clicked');
-                        });
-                        $(this).addClass('clicked');
-                        var eth=$("td.clicked input").val();
-                        console.log(eth);
-                        
-                    
-                                                                                
+                    table_body += '<tr>';
+                    var count = 1;
+                    parties.forEach(party => {
+
+
+                        table_body += '<td>';
+                        table_body += '<img src="/img/' + parties.symbolFilename + '" height="64px" width="64px" float="left"/<br>' + '<input type="hidden" id="ethAddress" value=' + party.prEthAddress + ' />';
+                        table_body += '</td>';
+                        if (count % 5 == 0) {
+                            table_body += '</tr>';
+                            table_body += '<tr>';
+                        }
+                        count++;
+                    });
+
+                    table_body += '</tr>';
+
+                    table_body += '</tbody></table>';
+                    $('#ballot').html(table_body);
+
+                }
+
+                $(document).ready(function () {
+                    console.log(getCookie('booth_address'));
+                    $.ajax({
+                        type: "GET",
+                        url: "http://localhost:3500/candidate/pr/pa",
+                        headers: { "booth_address": getCookie('booth_address') },
+                        success: function (candidates) {
+                            //console.log(candidates);
+                            //createBallot(candidates);
+                            callback(candidates);
+
+                        }
+                    });
+                    console.log("ready function exiting");
                 });
 
-                function button_click() {
-                    var eth=$("td.clicked input").val();
-                    if(eth==undefined){
-                        alert("Please select candidate");
-                    }
-                    else{
-                        document.cookie="pr_pa_ethAddress="+eth;
-                        var ee=document.cookie;
-                        console.log(ee);
-                        swal({
-                            title: "Voting Successful",
-                            text: ee,
-                            icon: "success",
-                        }).then(function(){
-                            window.location.href='/start_voting';
 
-                        });
-                      
+            </script>
+            <script>
 
-                    }     
-                    
-                }
-                   
 
-        </script>
 
-</html>
 
+
+
+
+
+            </script>
+
+
+
+
+            <div class='container' style='background-color: #f6afcf;'>
+
+                <div class="table-responsive" id="ballot">
+
+                    <!-- Ballot is loaded using createBallot function using loops. -->
+
+                </div>
+                <button id="next_button" onclick="button_click()">Continue</button>
+            </div>
+
+
+
+
+
+    </body>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+
+        $(document).on('click', 'td', function () {
+            console.log('TD clicked');
+            $(this).parents('table').find('td').each(function (index, element) {
+                $(element).removeClass('clicked');
+            });
+            $(this).addClass('clicked');
+            var eth = $("td.clicked input").val();
+            console.log(eth);
+
+
+
+        });
+
+        function button_click() {
+            var eth = $("td.clicked input").val();
+            if (eth == undefined) {
+                alert("Please select candidate");
+            }
+            else {
+                document.cookie = "pr_pa_ethAddress=" + eth;
+                var ee = document.cookie;
+                console.log(ee);
+                swal({
+                    title: "Are you sure?",
+                    text: "Do ypu want to continue",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: false,
+                })
+                    .then((voteConfirmed) => {
+                        if (voteConfirmed) {
+                            $.ajax({
+                                type: "POST",
+                                url: "http://localhost:3500/voter/voted",
+                                headers: { "booth_address": getCookie('booth_address'),
+                                            "token":getCookie('token'),
+                                            "pkHash":getCookie('pkHash'),
+                                            "fptp_hor_ethAddress":getCookie('fptp_hor_ethAddress'),
+                                            "fptp_pa_ethAddress":getCookie('fptp_pa_ethAddress'),
+                                            "pr_hor_ethAddress":getCookie('pr_hor_ethAddress'),
+                                            "pr_pa_ethAddress":getCookie('pr_pa_ethAddress') },
+                                success: function (candidates) {
+                                    window.location.href = '/start_voting';
+                                    //console.log(candidates);
+                                    //createBallot(candidates);
+                                    //callback(candidates);
+
+                                }
+                            });
+                            
+
+                        }
+                    });
+
+
+            }
+
+        }
+
+
+    </script>
+
+    </html>
