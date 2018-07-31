@@ -9,6 +9,7 @@
     <script src="https://unpkg.com/sweetalert2@7.21.1/dist/sweetalert2.all.js"></script>
     <script type="text/javascript" src="../plugins/QRScanner/instascan.min.js"></script>
     <script src="../plugins//sha256/jquery.sha256.min.js"></script>
+    <script src="../plugins/CryptoJS/components/aes-min.js"></script>
     
     <script type="text/javascript">
         const toast = swal.mixin({
@@ -38,7 +39,8 @@
                 });
             } else {
                 data = JSON.parse(content);
-                var hash = $.sha256(data.pk);
+                var hash = (data.pk);
+                console.log('Value from qr:',hash)
                 validateVoter(hash);
             }
 
