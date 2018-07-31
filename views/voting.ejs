@@ -109,7 +109,7 @@
                 success: function (validated) {
                     console.log(validated);
                     setCookie("token", validated.token, 0.0069);
-                    setCookie("user_id", validated.id, 0.0069);
+                    setCookie("user_id", validated.username, 0.0069);
                     //console.log(getCookie('token'));
                     loadingPopdown();
                     window.location.href = '/voting/fptp_hor';

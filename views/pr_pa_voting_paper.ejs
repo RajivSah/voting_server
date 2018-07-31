@@ -188,6 +188,10 @@
                                 success: function (candidates) {
                                     window.location.href = 'http://localhost:4500/start_voting';
 
+                                },
+                                beforeSend: function(){
+                                    console.log("*****changing voter status");
+                                    console.log(data,headers);
                                 }
                             });
 
