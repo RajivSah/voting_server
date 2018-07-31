@@ -37,7 +37,7 @@
                 });
             } else {
                 data = JSON.parse(content);
-                var hash = (data.pk);
+                var hash = $.sha256(data.pk);
                 console.log('Value from qr:',hash)
                 validateVoter(hash);
             }
