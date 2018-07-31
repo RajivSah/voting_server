@@ -2,6 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const web3 = require('web3');
 const bodyParser = require('body-parser');
+// var cors=require('cors')
 
 var router = express.Router();
 var app = express();
@@ -21,11 +22,12 @@ connectDb = function (username = 'rajiv', password = 'rajiv') {
 app.use(express.static(__dirname + '/public/'))          // For serving static
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(cors())
 app.use(function (req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, x-access-token');
+    res.header('Access-Control-Allow-Credentials', true);
     next();
 });
 
