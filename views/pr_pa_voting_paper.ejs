@@ -180,10 +180,7 @@
                                             "pr_hor_ethAddress":getCookie('pr_hor_ethAddress'),
                                             "pr_pa_ethAddress":getCookie('pr_pa_ethAddress') },
                                 success: function (candidates) {
-                                    window.location.href = '/start_voting';
-                                    //console.log(candidates);
-                                    //createBallot(candidates);
-                                    //callback(candidates);
+                                    window.location.href = 'http://localhost:4500/start_voting';
 
                                 }
                             });

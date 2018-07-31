@@ -91,6 +91,7 @@
             document.cookie = name + '=; Max-Age=-99999999;';
         }
 
+
         var validateVoter = function (pkHash) {
             var data = {
                 "id": pkHash,
@@ -106,10 +107,17 @@
                 },
                 success: function (validated) {
                     console.log(validated);
-                    setCookie("token", validated.token,0.0069);
+                    setCookie("token", validated.token, 0.0069);
                     //console.log(getCookie('token'));
                     loadingPopdown();
                     window.location.href = '/voting/fptp_hor';
+                },
+                error: function (result) {
+                    loadingPopdown();
+                    toast({
+                        type: "error",
+                        title: "Not Authenticated"
+                    });
                 }
             });
         }
