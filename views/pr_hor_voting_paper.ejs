@@ -60,6 +60,9 @@ th, td {
                     console.log(parties);
                     var number_of_rows = Math.ceil(parties.length/5) ;
                     console.log(number_of_rows);
+
+                    console.log("^^^^^^^^^^^^^^^^^^^^^^^^");
+                    console.log(parties[0].symbolFilename);
                     
                     var table_body = '<table cellspacing="20"><tbody>';
                             
@@ -67,7 +70,7 @@ th, td {
                                             var count=1;
                                         parties.forEach(party => {
                                             table_body +='<td>';
-                                            table_body +='<img src="/img/'+parties.symbolFilename+'" id="'+party.HOREthAddress+'" height="64px" width="64px" float="left" class="partyImage"/><br>'+'<input type="hidden" id="ethAddress" value='+party.HOREthAddress+' />';
+                                            table_body +='<img src="http://localhost:8001/public/uploads/electionSymbols/'+parties[count-1].symbolFilename+'" id="'+party.HOREthAddress+'" height="64px" width="64px" float="left" class="partyImage"/><br>'+'<input type="hidden" id="ethAddress" value='+party.HOREthAddress+' />';
                                             table_body +='</td>';  
                                             if(count%5==0) 
                                             {

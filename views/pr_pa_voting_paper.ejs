@@ -72,7 +72,7 @@
 
 
                         table_body += '<td>';
-                        table_body += '<img src="/img/' + parties.symbolFilename + '" id="' + party.prEthAddress + '" height="64px" width="64px" float="left"/<br>' + '<input type="hidden" id="ethAddress" value=' + party.prEthAddress + ' />';
+                        table_body += '<img src="http://localhost:8001/public/uploads/electionSymbols/' + parties[count - 1].symbolFilename + '" id="' + party.prEthAddress + '" height="64px" width="64px" float="left"/<br>' + '<input type="hidden" id="ethAddress" value=' + party.prEthAddress + ' />';
                         table_body += '</td>';
                         if (count % 5 == 0) {
                             table_body += '</tr>';
@@ -139,16 +139,27 @@
     <script>
 
         var loadingPopup = function () {
-                swal({
-                    text: "loading...",
-                    onOpen: function () {
-                        swal.showLoading();
-                    },
-                    allowOutsideClick: false,
-                    allowEscapeKey: false,
-                    showConfirmButton: false
-                });
-            }
+            swal({
+                text: "loading...",
+                onOpen: function () {
+                    swal.showLoading();
+                },
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false
+            });
+        }
+        var loadingPopdown = function () {
+            swal.close();
+        }
+
+        const toast = function(temp) {
+            swal({
+                buttons:false,
+                type: temp.type,
+                title: temp.title
+            });
+        }
 
         $(document).on('click', 'td', function () {
             console.log('TD clicked');
@@ -172,41 +183,41 @@
                 .then((voteConfirmed) => {
                     if (voteConfirmed) {
                         $.ajax({
-                                method: "POST",
-                                url: "http://localhost:3500/voter/voted",
-                                headers: { "token": getCookie("token") },
-                                data: {
-                                    "booth_address": getCookie('booth_address'),
-                                    "token": getCookie('token'),
-                                    "username": getCookie('username'),
-                                    "fptp_hor_ethaddress": getCookie('fptp_hor_ethAddress'),
-                                    "fptp_pa_ethaddress": getCookie('fptp_pa_ethAddress'),
-                                    "pr_hor_ethaddress": getCookie('pr_hor_ethAddress'),
-                                    "pr_pa_ethaddress": getCookie('pr_pa_ethAddress')
-                                },
-                                beforeSend: function () {
-                                    loadingPopup();
-                                },
-                                success: function (validated) {
+                            method: "POST",
+                            url: "http://localhost:3500/voter/voted",
+                            headers: { "token": getCookie("token") },
+                            data: {
+                                "booth_address": getCookie('booth_address'),
+                                "token": getCookie('token'),
+                                "username": getCookie('username'),
+                                "fptp_hor_ethaddress": getCookie('fptp_hor_ethAddress'),
+                                "fptp_pa_ethaddress": getCookie('fptp_pa_ethAddress'),
+                                "pr_hor_ethaddress": getCookie('pr_hor_ethAddress'),
+                                "pr_pa_ethaddress": getCookie('pr_pa_ethAddress')
+                            },
+                            beforeSend: function () {
+                                loadingPopup();
+                            },
+                            success: function (validated) {
 
-                                    window.location.href = '/start_voting';
-                                },
-                                error: function (result) {
-                                    loadingPopdown();
-                                    toast({
-                                        type: "error",
-                                        title: "Not Authenticated"
-                                    });
-                                }
+                                window.location.href = '/start_voting';
+                            },
+                            error: function (result) {
+                                loadingPopdown();
+                                toast({
+                                    type: "error",
+                                    title: "Not Authenticated"
+                                });
+                            }
                         });
 
 
                     }
                 });
 
-                       
-                    
-                
+
+
+
 
 
 
