@@ -1,5 +1,12 @@
 <%- include('header', {title: "Vote for Change"});  -%>
     <link rel="stylesheet" href="../plugins/QRScanner/style.css">
+    <script>
+        if (!getCookie("booth_address")){
+            document.location.replace('/');
+        }
+    </script>
+    </head>
+    </body>
     <div class='container'>
         <h1>Vote For Change</h1>
         <h3>Scan your QR to continue</h3>
@@ -10,12 +17,12 @@
     <script type="text/javascript" src="../plugins/QRScanner/instascan.min.js"></script>
     <script src="../plugins//sha256/jquery.sha256.min.js"></script>
     <script type="text/javascript">
-        const toast = swal.mixin({
-            toast: true,
-            position: 'bottom-end',
-            showConfirmButton: false,
-            timer: 3000
-        });
+            const toast = swal.mixin({
+                toast: true,
+                position: 'bottom-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
         var audio = new Audio('../plugins/QRScanner/beep.mp3');
 
         let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
@@ -39,7 +46,7 @@
                 data = JSON.parse(content);
                 // var hash = $.sha256(data.pk);
                 var hash = (data.pk);
-                console.log('Value from qr:',hash)
+                console.log('Value from qr:', hash)
                 validateVoter(hash);
             }
 
