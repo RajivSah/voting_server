@@ -47,8 +47,9 @@ th, td {
         <script>
                 
                 var candidates;
+                
                   function callback(response) {
-                      candidates = response;
+                      candidates = response.candidates;
                       console.log("callback function");
                       console.log(candidates);
                       createBallot(candidates);                  
