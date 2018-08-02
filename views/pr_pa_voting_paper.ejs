@@ -50,8 +50,10 @@
             <script>
 
                 var candidates;
+                var state;
                 function callback(response) {
-                    candidates = response;
+                    candidates = response.candidates;
+                    state=response.state;
                     console.log("callback function");
                     console.log(candidates);
                     createBallot(candidates);
@@ -63,16 +65,20 @@
                     console.log(parties);
                     var number_of_rows = Math.ceil(parties.length / 5);
                     console.log(number_of_rows);
+                    
 
                     var table_body = '<table cellspacing="20"><tbody>';
 
                     table_body += '<tr>';
                     var count = 1;
                     parties.forEach(party => {
+                        //party.prEthAddress    ----->returns string So converting string into array
+                        var prEthAddress = party.prEthAddress.split(",");
+                        console.log(prEthAddress);
 
 
                         table_body += '<td>';
-                        table_body += '<img src="/img/' + parties.symbolFilename + '" id="' + party.prEthAddress + '" height="64px" width="64px" float="left"/<br>' + '<input type="hidden" id="ethAddress" value=' + party.prEthAddress + ' />';
+                        table_body += '<img src="/img/' + parties.symbolFilename + '" id="' + prEthAddress[state-1] + '" height="64px" width="64px" float="left"/<br>' + '<input type="text" id="ethAddress" value=' + prEthAddress[state-1] + ' />';
                         table_body += '</td>';
                         if (count % 5 == 0) {
                             table_body += '</tr>';
