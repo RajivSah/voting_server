@@ -1,28 +1,83 @@
 <%- include('header', {title: "Vote for Change"});  -%>
     <link rel="stylesheet" href="../plugins/QRScanner/style.css">
     <script>
-        if (!getCookie("booth_address")){
+        if (!getCookie("booth_address")) {
             document.location.replace('/');
         }
     </script>
     </head>
     </body>
-    <div class='container'>
-        <h1>Vote For Change</h1>
-        <h3>Scan your QR to continue</h3>
-        <video id="preview"></video>
 
+
+
+
+    <div class='jumbotron form-container'>
+
+        <div class='row login-box'>
+
+            <div class='col-md-5 right'>
+                <br />
+                <br />
+                <center>
+                    <img src='/img/electioncommission.png' width='128px' height="128px" />
+                    <br> निर्वाचन आयोग
+                    <h4>प्रतिनिधिसभा सदस्य तथा प्रदेशसभा सदस्य निर्वाचन, २०७५ </h4>
+                    </p>
+                    <p id='district-name'></p>
+                    <p>कृपया आफ्नो QR CODE क्यामरामा देखाउनुहोला ।</p>
+
+                </center>
+            </div>
+
+            <div class='col-md-7'>
+                <center>
+
+                    <video class='float-left' id="preview" width="480px" height="320px"></video>
+                </center>
+            </div>
+        </div>
     </div>
+
+
+
+    <style>
+        .right {
+            border-right: 1px solid #ccc;
+        }
+
+        .with-errors {
+            height: 20px;
+            font-size: 90%;
+            color: red;
+        }
+
+        .form-container {
+            padding: 4%;
+            background-color: #c6eafa;
+        }
+
+        .login-box {
+            background-color: #F1F7FC;
+            padding: 8%;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+
+        body {
+            background-color: #c6eafa;
+        }
+    </style>
+
     <script src="https://unpkg.com/sweetalert2@7.21.1/dist/sweetalert2.all.js"></script>
     <script type="text/javascript" src="../plugins/QRScanner/instascan.min.js"></script>
     <script src="../plugins//sha256/jquery.sha256.min.js"></script>
     <script type="text/javascript">
-            const toast = swal.mixin({
-                toast: true,
-                position: 'bottom-end',
-                showConfirmButton: false,
-                timer: 3000
-            });
+        $('#district-name').text(getCookie('district') + ', ' + getCookie('constituency'));
+        const toast = swal.mixin({
+            toast: true,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            timer: 3000
+        });
         var audio = new Audio('../plugins/QRScanner/beep.mp3');
 
         let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
@@ -121,12 +176,33 @@
                     loadingPopdown();
                     window.location.href = '/voting/fptp_hor';
                 },
-                error: function (result) {
+                error: function (xhr, text, result) {
                     loadingPopdown();
-                    toast({
-                        type: "error",
-                        title: "Not Authenticated"
-                    });
+                    console.log('hello');
+                    if (xhr.status == 500) {
+                        toast({
+                            type: "error",
+                            title: "Server Error."
+                        });
+                    } else if (xhr.status == 404) {
+                        toast({
+                            type: "error",
+                            title: "Voter not registered for this constituency."
+                        });
+                    } else if (xhr.status == 403) {
+                        toast({
+                            type: "error",
+                            title: "Booth is forbidden."
+                        });
+                    } else if (xhr.status == 401) {
+                        toast({
+                            type: "error",
+                            title: "You have already casted your vote."
+                        });
+                    }
+
+
+
                 }
             });
         }
