@@ -9,41 +9,47 @@
     </head>
 
     <body>
+<center>
+    <img src='/img/electioncommission.png' width='128px' height="128px" />
+    <br>
+        निर्वाचन आयोग 
+    <h4>प्रतिनिधिसभा सदस्य तथा प्रदेशसभा सदस्य निर्वाचन, २०७५ </h4>
+</center>
 
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                 </div>
-                <div class="col-md-4">
-                    <form id="register-booth">
+                <div class="col-md-6 form-container">
+                    <form id="register-booth" class="form-horizontal registration-form">
                         <div class="form-group row">
-                            <label for="adminID" class="col-4 col-form-label">AdminID</label>
+                            <label for="adminID" class="col-4 col-form-label col-form-label-sm">AdminID</label>
                             <div class="col-8">
-                                <input id="adminID" name="adminID" class="form-control here" required="required" type="text">
+                                <input id="adminID" name="adminID" class="form-control here form-control-sm" required="required" type="text">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="password" class="col-4 col-form-label">Password</label>
+                            <label for="password" class="col-4 col-form-label col-form-label-sm">Password</label>
                             <div class="col-8">
-                                <input id="password" name="password" class="form-control here" required="required" type="password">
+                                <input id="password" name="password" class="form-control here form-control-sm" required="required" type="password">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="address" class="col-4 col-form-label">Address</label>
+                            <label for="address" class="col-4 col-form-label col-form-label-sm">Address</label>
                             <div class="col-8">
-                                <input id="address" name="address" class="form-control here" required="required" type="text">
+                                <input id="address" name="address" class="form-control here form-control-sm" required="required" type="text">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="number" class="col-4 col-form-label">Number</label>
+                            <label for="number" class="col-4 col-form-label col-form-label-sm">Number</label>
                             <div class="col-8">
-                                <input id="password" name="number" class="form-control here" required="required" type="number">
+                                <input id="password" name="number" class="form-control here form-control-sm" required="required" type="number">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="district" class="col-4 col-form-label">District</label>
+                            <label for="district" class="col-4 col-form-label col-form-label-sm">District</label>
                             <div class="col-8">
-                                <select id="district" name="district" class="custom-select">
+                                <select id="district" name="district" class="custom-select form-control-sm">
                                     <option value="Jhapa">Jhapa</option>
                                     <option value="Ilam">Ilam</option>
                                     <option value="Panchthar">Panchthar</option>
@@ -125,27 +131,47 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="constituency" class="col-4 col-form-label">Constituency</label>
+                            <label for="constituency" class="col-4 col-form-label col-form-label-sm">Constituency</label>
                             <div class="col-8">
-                                <input id="constituency" name="constituency" class="form-control here" required="required" type="text">
+                                <input id="constituency" name="constituency" class="form-control here form-control-sm" required="required" type="text">
                             </div>
                         </div>
                         <div class="form-group row">
-                            <div class="offset-4 col-8">
-                                <button name="submit" type="submit" class="btn btn-primary">Submit</button>
+                            <div class="col-12">
+                                <button name="submit" type="submit" class="float-right btn btn-success">Submit</button>
                             </div>
                         </div>
                     </form>
 
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                 </div>
             </div>
         </div>
 
 
-
     </body>
+
+    <style>
+        .with-errors {
+          height: 20px;
+          font-size: 90%;
+          color: red;
+        }
+      
+        .form-container {
+          padding: 4%;
+          background-color: #F1F7FC;
+        }
+      
+        .registration-form {
+          background-color: white;
+          padding: 8%;
+          box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        }
+      </style>
+
+
     <script>
         $(function () {
             var loadingPopup = function () {
@@ -204,6 +230,8 @@
                         console.log(result);
                         if (result.id) {
                             setCookie("booth_address", result.id, 1);
+                            setCookie("district", $("#district").val(), 1);
+                            setCookie("constituency", $("#constituency").val(), 1);
                             document.location.href = "http://localhost:4500/start_voting";
                         } else {
                             loadingPopdown();
