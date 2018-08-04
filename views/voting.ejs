@@ -23,8 +23,9 @@
                     <br> निर्वाचन आयोग
                     <h4>प्रतिनिधिसभा सदस्य तथा प्रदेशसभा सदस्य निर्वाचन, २०७५ </h4>
                     </p>
-                    <p id='district-name'></p>
+                    
                     <p>कृपया आफ्नो QR CODE क्यामरामा देखाउनुहोला ।</p>
+                    <p id='district-name'></p>
 
                 </center>
             </div>
@@ -64,6 +65,8 @@
 
         body {
             background-color: #c6eafa;
+            cursor: default;
+            pointer-events: none;
         }
     </style>
 
@@ -72,6 +75,12 @@
     <script src="../plugins//sha256/jquery.sha256.min.js"></script>
     <script type="text/javascript">
         $('#district-name').text(getCookie('district') + ', ' + getCookie('constituency'));
+        $(document).ready(function () {
+            $(".form-container").on("contextmenu", function (e) {
+                return false;
+            });
+        });
+
         const toast = swal.mixin({
             toast: true,
             position: 'bottom-end',
@@ -118,7 +127,7 @@
 
         var loadingPopup = function () {
             swal({
-                text: "loading...",
+                text: "कृपया पर्खनुहोस्  ...",
                 onOpen: function () {
                     swal.showLoading();
                 },
@@ -182,12 +191,12 @@
                     if (xhr.status == 500) {
                         toast({
                             type: "error",
-                            title: "Server Error."
+                            title: "सिस्टममा प्रोब्लेम आएको छ । "
                         });
                     } else if (xhr.status == 404) {
                         toast({
                             type: "error",
-                            title: "Voter not registered for this constituency."
+                            title: "मतदाता यो क्षेत्रमा दर्ता गरिएको छैन ।"
                         });
                     } else if (xhr.status == 403) {
                         toast({
@@ -197,7 +206,7 @@
                     } else if (xhr.status == 401) {
                         toast({
                             type: "error",
-                            title: "You have already casted your vote."
+                            title: "तपाईले आफ्नो मत हाली सक्नुभएको छ ।"
                         });
                     }
 
