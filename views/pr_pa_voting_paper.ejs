@@ -53,7 +53,7 @@
                 var state;
                 function callback(response) {
                     candidates = response.candidates;
-                    state=response.state;
+                    state = response.state;
                     console.log("callback function");
                     console.log(candidates);
                     createBallot(candidates);
@@ -65,7 +65,7 @@
                     console.log(parties);
                     var number_of_rows = Math.ceil(parties.length / 5);
                     console.log(number_of_rows);
-                    
+
 
                     var table_body = '<table cellspacing="20"><tbody>';
 
@@ -78,7 +78,7 @@
 
 
                         table_body += '<td>';
-                        table_body += '<img src="http://localhost:8001/public/uploads/electionSymbols/' + parties[count - 1].symbolFilename + '" id="' +prEthAddress[state-1] + '" height="64px" width="64px" float="left"/<br>' + '<input type="hidden" id="ethAddress" value=' + prEthAddress[state-1] + ' />';
+                        table_body += '<img src="http://localhost:8001/public/uploads/electionSymbols/' + parties[count - 1].symbolFilename + '" id="' + prEthAddress[state - 1] + '" height="64px" width="64px" float="left"/<br>' + '<input type="hidden" id="ethAddress" value=' + prEthAddress[state - 1] + ' />';
                         table_body += '</td>';
                         if (count % 5 == 0) {
                             table_body += '</tr>';
@@ -145,31 +145,31 @@
     <script>
 
         function setCookie(name, value, days) {
-                var expires = "";
-                if (days) {
-                    var date = new Date();
-                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                    expires = "; expires=" + date.toUTCString();
-                }
-                document.cookie = name + "=" + (value || "") + expires + "; path=/";
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
             }
-            function getCookie(name) {
-                var nameEQ = name + "=";
-                var ca = document.cookie.split(';');
-                for (var i = 0; i < ca.length; i++) {
-                    var c = ca[i];
-                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-                }
-                return null;
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
             }
-            function eraseCookie(name) {
-                document.cookie = name + '=; Max-Age=-99999999;';
-            }
+            return null;
+        }
+        function eraseCookie(name) {
+            document.cookie = name + '=; Max-Age=-99999999;';
+        }
 
         var loadingPopup = function () {
             swal({
-                text: "loading...",
+                text: "कृपया पर्खनुहोस्  ...",
                 onOpen: function () {
                     swal.showLoading();
                 },
@@ -182,9 +182,9 @@
             swal.close();
         }
 
-        const toast = function(temp) {
+        const toast = function (temp) {
             swal({
-                buttons:false,
+                buttons: false,
                 type: temp.type,
                 title: temp.title
             });
@@ -234,7 +234,22 @@
                                 eraseCookie('fptp_pa_ethAddress');
                                 eraseCookie('pr_hor_ethAddress');
                                 eraseCookie('pr_pa_ethAddress');
-                                window.location.href = '/start_voting';
+
+                                swal({
+                                    title: "धन्यबाद",
+                                    text: "तपाइको मत हामीले लिएको छौँ  । ",
+                                    type: "success",
+                                    icon: "/img/votecasted.png" ,
+                                    imageSize: '128x128',
+                            
+
+                                    buttons: false,
+                                    timer: 5000
+                                });
+
+                                setTimeout(function () {
+                                    window.location.href = '/start_voting';
+                                }, 5000);
                             },
                             error: function (result) {
                                 loadingPopdown();
